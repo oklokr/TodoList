@@ -101,6 +101,11 @@ button[class^="btn"] {
   }
 
   &.disabled select {
+    color: #a7a7a7;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Ctitle%3Edown-arrow%3C%2Ftitle%3E%3Cg%20fill%3D%22%23000000%22%3E%3Cpath%20d%3D%22M10.293%2C3.293%2C6%2C7.586%2C1.707%2C3.293A1%2C1%2C0%2C0%2C0%2C.293%2C4.707l5%2C5a1%2C1%2C0%2C0%2C0%2C1.414%2C0l5-5a1%2C1%2C0%2C1%2C0-1.414-1.414Z%22%20fill%3D%22%23a7a7a7%22%3E%3C%2Fpath%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+    background-size: .6em;
+    background-position: calc(100% - 1.3em) center;
+    background-repeat: no-repeat;
     background-color: #ebebeb;
     pointer-events: none;
   }
@@ -187,9 +192,10 @@ button[class^="btn"] {
       background: #ececec;
     }
     p {
+      font-size: 14px;
       &.times {
-        width: 100px;
-        padding: 0 12px;
+        width: 110px;
+        padding: 0 12px 0 4px;
         box-sizing: border-box;
         position: relative;
         margin-right: 12px;
@@ -205,10 +211,13 @@ button[class^="btn"] {
           background: #ccc;
         }
       }
+      * {
+        display: block;
+      }
 
-      strong,
       span {
         display: block;
+        margin-top: 4px;
       }
     }
     .btn_wrap {
@@ -298,7 +307,7 @@ button[class^="btn"] {
       span {
         margin: 0 8px;
         flex-shrink: 0;
-        color: #ccc;
+        color: #a7a7a7;
       }
     }
   }
@@ -314,7 +323,7 @@ button[class^="btn"] {
     &.disabled {
       background-color: #ebebeb;
       pointer-events: none;
-      color: #ccc;
+      color: #a7a7a7;
     }
   }
 }
