@@ -13,20 +13,29 @@ function TodoCreate({open, state, setOpen}) {
     createStartMinutes: '',
     createEndHours: '',
     createEndMinutes: '',
+    startMeridiem: '',
+    endMeridiem: '',
     allTime: false,
   })
-  const { createTitle, createText, createStartHours, createStartMinutes, createEndHours, createEndMinutes, allTime } = createData;
+  const { createTitle, createText, createStartHours, createStartMinutes, createEndHours, createEndMinutes, startMeridiem, endMeridiem, allTime } = createData;
   const [animation, setAnimation] = useState(false);
-
+  
   const fn_create = () => {
+    const setNumber = (number) => {
+      return String(number).length === 1 ? String(number).padStart(2, '0') : number;
+    }
+    const meridiem = (text) => {
+      if(text === 'am') return '오전'
+      if(text === 'pm') return '오후'
+    }
     dispatch({
       type: 'CREATE',
       inputData: {
         year: toYear,
         month: toMonth,
         date: toDate,
-        startTime: `${createStartHours}시 ${createStartMinutes}분`,
-        endTime: `${createEndHours}시 ${createEndMinutes}분`,
+        startTime: `${meridiem(startMeridiem)} ${setNumber(createStartHours)}시 ${setNumber(createStartMinutes)}분`,
+        endTime: `${meridiem(endMeridiem)} ${setNumber(createEndHours)}시 ${setNumber(createEndMinutes)}분`,
         allTime: allTime,
         label: createTitle,
         text: createText,
@@ -39,6 +48,8 @@ function TodoCreate({open, state, setOpen}) {
       createStartMinutes: '',
       createEndHours: '',
       createEndMinutes: '',
+      startMeridiem: '',
+      endMeridiem: '',
       allTime: false,
     })
     setOpen(false);
@@ -57,7 +68,7 @@ function TodoCreate({open, state, setOpen}) {
     }else  {
       setTimeout(() => setAnimation(false), 100);
     }
-  })
+  }, [open])
 
   return open && (
     <div className={`input_wrap ${animation ? 'open' : ''}`}>
@@ -95,13 +106,34 @@ function TodoCreate({open, state, setOpen}) {
           </label>
         </dt>
         <dd className='select_wrap'>
-          <TimeSelectBox name={"createStartHours"} chagne={fn_change} disabled={allTime} />
-          <span>:</span>
-          <TimeSelectBox name={"createStartMinutes"} chagne={fn_change} disabled={allTime} />
-          <span>~</span>
-          <TimeSelectBox name={"createEndHours"} chagne={fn_change} disabled={allTime} />
-          <span>:</span>
-          <TimeSelectBox name={"createEndMinutes"} chagne={fn_change} disabled={allTime} />
+          <div>
+            <strong>시작시간</strong>
+            <div className={`select ${allTime ? 'disabled' : ''}`}>
+              <select name={"startMeridiem"} onChange={fn_change} value={startMeridiem}>
+                <option value="none" hidden>선택</option>
+                <option value="am">오전</option>
+                <option value="pm">오후</option>
+              </select>
+            </div>
+            <TimeSelectBox name={"createStartHours"} change={fn_change} disabled={allTime} />
+            <span>시</span>
+            <TimeSelectBox name={"createStartMinutes"} change={fn_change} disabled={allTime} />
+            <span>분</span>
+          </div>
+          <div>
+            <strong>종료시간</strong>
+            <div className={`select ${allTime ? 'disabled' : ''}`}>
+            <select name={"endMeridiem"} onChange={fn_change} value={endMeridiem}>
+                <option value="none" hidden>선택</option>
+                <option value="am">오전</option>
+                <option value="pm">오후</option>
+              </select>
+            </div>
+            <TimeSelectBox name={"createEndHours"} change={fn_change} disabled={allTime} />
+            <span>시</span>
+            <TimeSelectBox name={"createEndMinutes"} change={fn_change} disabled={allTime} />
+            <span>분</span>
+          </div>
         </dd>
       </dl>
       <button className={`btn ${

@@ -1,18 +1,5 @@
-main {
-  width: 412px;
-  height: 600px;
-  margin: 0 auto;
-  position: relative;
-  
-}
-
 .page_today {
   height: 100%;
-  padding: 20px 20px 60px;
-  position: relative;
-  border-radius: 8px;
-  background: #fff;
-  box-sizing: border-box;
   overflow: hidden;
 }
 
@@ -73,9 +60,45 @@ button[class^="btn"] {
       background-position: center;
     }
   }
+
+  &[class*="_day"],
+  &[class*="_week"],
+  &[class*="_month"] {
+    color: #b3b3b3;
+    padding: 8px 8px;
+    border: 1px solid #b3b3b3;
+    border-radius: 4px;
+    &:before {
+      content: "";
+      display: block;
+      width: 20px;
+      height: 20px;
+      margin: 0 auto 8px;
+      background-repeat: no-repeat;
+      background-size: 100%;
+      background-position: center;
+      transition: 0.2s;
+      opacity: 0.3;
+    }
+    &.active {
+      color: #000;
+      border-color: #000;
+    }
+    &:hover::before, &.active:before {
+      opacity: 1;
+    }
+  }
+
+  &[class*="_day"]::before {
+    background-image: url('data:image/svg+xml, <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"></path><path d="M12 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path></svg>');
+  }
+  &[class*="_week"]::before {
+    background-image: url('data:image/svg+xml, <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"></path><path d="M12 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-5 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm2-3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-5 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path></svg>');
+  }
+  &[class*="_month"]::before {
+    background-image: url('data:image/svg+xml, <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"></path><path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path></svg>');
+  }
 }
-
-
 .select {
   display: flex;
 	width: 100%;
@@ -84,6 +107,7 @@ button[class^="btn"] {
   border: 1px solid #ebebeb;
   border-radius: 4px;
   background: #fff;
+  
   select {
     width: 100%;
     height: 100%;
@@ -113,60 +137,134 @@ button[class^="btn"] {
 
 .controll_wrap {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  min-height: 80px;
   padding: 20px 0;
   margin: -20px -20px 0;
-  background: linear-gradient(to right, #af94ff, #d4c9f5 40%);
+  position: relative;
   border-radius: 8px 8px 0 0;
+  background: linear-gradient(to right, #af94ff, #d4c9f5 40%);
 
-  strong {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 200px;
-    height: 80px;
-    color: #fff;
-    font-weight: initial;
-    font-size: 18px;
-    margin: 0 34px;
+  &.today {
+    strong {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 200px;
+      height: 80px;
+      color: #fff;
+      font-weight: initial;
+      font-size: 18px;
+      margin: 0 34px;
+    }
+  
+    .point {
+      height: 100%;
+      font-weight: bold;
+      font-size: 56px;
+      font-style: initial;
+      position: relative;
+      padding-left: 40px;
+  
+      &::before {
+        content: "";
+        height: 30px;
+        width: 1px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 20px;
+        margin-top: auto;
+        margin-bottom: auto;
+        background: #fff;
+      }
+    }
   }
 
-  .point {
-    height: 100%;
-    font-weight: bold;
-    font-size: 56px;
-    font-style: initial;
-    position: relative;
-    padding-left: 40px;
-
-    &::before {
-      content: "";
-      height: 30px;
-      width: 1px;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 20px;
-      margin-top: auto;
-      margin-bottom: auto;
-      background: #fff;
+  &.week {
+    flex-direction: column;
+    strong {
+      display: flex;
+      justify-content: center;
+      width: 200px;
+      color: #fff;
+      font-weight: initial;
+      margin: 0 auto;
+      font-size: 34px;
+      font-weight: bold;
     }
+    .point {
+      display: flex;
+      justify-content: space-between;
+      width: 270px;
+      text-align: center;
+      margin-top: 8px;
+
+      button {
+        color: #fff9;
+        font-size: 16px;
+        padding: 0 8px;
+        position: relative;
+        transition: .2s;
+        &::after {
+          content: "";
+          width: 0;
+          height: 2px;
+          margin: 0 auto;
+          position: absolute;
+          right: 0;
+          bottom: -4px;
+          left: 0;
+          background: #fff;
+          transition: .2s;
+        }
+        & + button {
+          margin-left: 4px;
+        }
+
+        &:hover {
+          color: #fff;
+        }
+        &.active {
+          color: #fff;
+          &::after {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  &.month {
+    font-size: 36px;
+    color: #fff;
   }
 
   > button {
     width: 24px;
     height: 24px;
     transition: 0.2s;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
     &.btn_prev {
-      order: -1;
+      left: 35px;
+    }
+    &.btn_next {
+      right: 35px;
+    }
+
+    &.btn_change {
+      position: absolute;
     }
   }
 }
 
 .todoList_col {
   display: flex;
-  height: 400px;
+  height: 360px;
   flex-direction: column;
   list-style: none;
   padding: 0;
@@ -194,7 +292,7 @@ button[class^="btn"] {
     p {
       font-size: 14px;
       &.times {
-        width: 110px;
+        width: 120px;
         padding: 0 12px 0 4px;
         box-sizing: border-box;
         position: relative;
@@ -289,6 +387,7 @@ button[class^="btn"] {
     dt {
       font-size: 12px;
       margin-bottom: 16px;
+      font-weight: bold;
     }
   }
 
@@ -299,15 +398,39 @@ button[class^="btn"] {
       justify-content: space-between;
       font-size: 12px;
       margin-bottom: 16px;
+      font-weight: bold;
     }
     .select_wrap {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      span {
-        margin: 0 8px;
-        flex-shrink: 0;
-        color: #a7a7a7;
+      flex-wrap: wrap;
+      gap: 12px;
+
+      div {
+        display: flex;
+        align-items: center;
+        width: 100%;
+
+        strong, span {
+          flex-shrink: 0;
+          font-size: 12px;
+          font-weight: normal;
+        }
+
+        strong {
+          margin: 0 12px 0 0;
+
+          & + .select {
+            margin-right: 12px;
+          }
+        }
+
+        span {
+          margin-left: 12px;
+
+          &:not(:last-child) {
+            margin: 0 12px;
+          }
+        }
       }
     }
   }
@@ -327,40 +450,35 @@ button[class^="btn"] {
     }
   }
 }
-button.btn_add {
-  width: 80px;
-  height: 80px;
-  position: absolute;
-  left: 50%;
-  bottom: 0px;
-  border-radius: 50%;
-  background-color: #38d9a9;
-  transform: translate(-50%, 50%);
-  transition: 0.125s all ease-in;
-  z-index: 20;
-  &:hover {
-    background-color: #63e6be;
-  }
-  &:active {
-    background-color: #20c997;
+
+table {padding:0;border:0;border-spacing:0px;border-collapse:collapse;}
+th, td {padding:0;}
+
+.calendar_wrap {
+  width: 100%;
+  margin: 14px 0 0;
+  thead tr th {
+    padding: 12px 0;
+    font-size: 20px;
+    border-bottom: 1px solid #ccc;
   }
 
-  &.active {
-    background-color: #ff6b6b;
-    transform: translate(-50%, 50%) rotate(45deg);
-    &:hover {
-      background-color: #ff8787;
-    }
-    &:active {
-      background-color: #fa5252;
+  td {
+    text-align: center;
+    font-size: 18px;
+    padding: 12px 4px;
+    position: relative;
+    &.active {
+      font-weight: bold;
     }
   }
-  span {
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    position: absolute;
-    clip: rect(0 0 0 0);
-    overflow: hidden;
+
+  thead tr th:first-of-type,
+  td:first-of-type {
+    color: red;
+  }
+  thead tr th:last-of-type,
+  td:last-of-type {
+    color: blue;
   }
 }

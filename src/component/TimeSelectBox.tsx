@@ -1,7 +1,6 @@
 import React from 'react'
 
-function SelectBox({name, chagne, disabled}) {
-  
+function SelectBox({name, change, disabled}) {
   const setNumber = (number) => {
     return String(number).length === 1 ? String(number).padStart(2, '0') : number;
   }
@@ -29,7 +28,7 @@ function SelectBox({name, chagne, disabled}) {
   return (
     <>
     <div className={`select ${disabled ? 'disabled' : ''}`}>
-      <select name={name} onChange={chagne}>
+      <select name={name} onChange={change}>
         <option value="none" hidden>선택</option>
         {fn_timeSet(name)}
       </select>

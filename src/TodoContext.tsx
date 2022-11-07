@@ -16,37 +16,131 @@ const initialState = {
   toMonth: toMonth,
   toDate: toDate,
   toDay: toDay,
-  userData: []
+  userData: [],
+  userType: 'day',
 }
 
-function fn_increment(state){
+function fn_dateChange(state, action){
+  const toLastDate = new Date(state.toYear, state.toMonth, 0).getDate();
+
+  if(toLastDate < action.weekDay && state.toMonth >= 12) {  // 다음 년도
+    const firstMonth = 1;
+    return {
+      ...state,
+      toYear: state.toYear + 1,
+      toMonth: firstMonth,
+      toDate: action.clickDate,
+      toDay: new Date(state.toYear, state.toMonth, action.clickDate).getDay(),
+    }
+  }else if (!(Math.sign(action.weekDay) > 0) && state.toMonth <= 1) {  // 이전 년도
+    const lastMonth = 12;
+    return {
+      ...state,
+      toYear: state.toYear - 1,
+      toMonth: lastMonth,
+      toDate: action.clickDate,
+      toDay: new Date(state.toYear - 1, lastMonth - 1, action.clickDate).getDay(),
+    }
+  }else if(toLastDate < action.weekDay){  // 다음 월
+    return {
+      ...state,
+      toMonth: state.toMonth + 1,
+      toDate: action.clickDate,
+      toDay: new Date(state.toYear, state.toMonth, action.clickDate).getDay(),
+    }
+  }else if(!(Math.sign(action.weekDay) > 0)) {  // 이전 월
+    return {
+      ...state,
+      toMonth: state.toMonth - 1,
+      toDate: action.clickDate,
+      toDay: new Date(state.toYear, state.toMonth - 2, action.clickDate).getDay(),
+    }
+  }else {
+    return {
+      ...state,
+      toDate: action.clickDate,
+      toDay: new Date(state.toYear, state.toMonth - 1, action.clickDate).getDay(),
+    }
+  }
+}
+function fn_todayIncrement(state){
   const toLastDate = new Date(state.toYear, state.toMonth, 0).getDate();
   
   if((state.toMonth + 1) > 12 && state.toDate >= toLastDate) {
-    return {...state, toYear: state.toYear + 1, toMonth: 1, toDate: 1 }
+    return {
+      ...state,
+      toYear: state.toYear + 1,
+      toMonth: 1,
+      toDate: 1,
+      toDay: new Date(state.toYear, state.toMonth - 1, state.toDate + 1).getDay()
+    }
   }else if (state.toDate >= toLastDate) {
     return {
       ...state,
       toMonth: state.toMonth + 1,
-      toDate: 1
+      toDate: 1,
+      toDay: new Date(state.toYear, state.toMonth - 1, state.toDate + 1).getDay()
     }
   }else {
-    return {...state, toDate: state.toDate + 1}
+    return {
+      ...state,
+      toDate: state.toDate + 1,
+      toDay: new Date(state.toYear, state.toMonth - 1, state.toDate + 1).getDay()
+    }
   }
 }
-function fn_decrement(state){
+function fn_todayDecrement(state){
   const toLastDate = new Date(state.toYear, state.toMonth - 1, 0).getDate();
 
   if(state.toMonth <= 1 && state.toDate <= 1) {
-    return {...state, toYear: state.toYear - 1, toMonth: 12, toDate: toLastDate}
+    return {
+      ...state,
+      toYear: state.toYear - 1,
+      toMonth: 12,
+      toDate: toLastDate,
+      toDay: new Date(state.toYear, state.toMonth - 1, state.toDate - 1).getDay()
+    }
   }else if (state.toDate <= 1) {
     return {
       ...state,
       toMonth: state.toMonth - 1,
-      toDate: toLastDate
+      toDate: toLastDate,
+      toDay: new Date(state.toYear, state.toMonth - 1, state.toDate - 1).getDay()
     }
   }else {
-    return {...state, toDate: state.toDate - 1}
+    return {
+      ...state,
+      toDate: state.toDate - 1,
+      toDay: new Date(state.toYear, state.toMonth - 1, state.toDate - 1).getDay()
+    }
+  }
+}
+function fn_toMonthIncrement(state){
+  if((state.toMonth + 1) > 12) {
+    return {
+      ...state,
+      toYear: state.toYear + 1,
+      toMonth: 1,
+    }
+  }else {
+    return {
+      ...state,
+      toMonth: state.toMonth + 1,
+    }
+  }
+}
+function fn_toMonthDecrement(state){
+  if(state.toMonth <= 1) {
+    return {
+      ...state,
+      toYear: state.toYear - 1,
+      toMonth: 12,
+    }
+  }else {
+    return {
+      ...state,
+      toMonth: state.toMonth - 1,
+    }
   }
 }
 
@@ -66,10 +160,18 @@ function reducer(state, action) {
         ...state,
         userData: state.userData.filter((item, idx) => idx !== action.idx)
       }
-    case 'DATE_DECREMENT':
-      return fn_decrement(state);
-    case 'DATE_INCREMENT':
-      return fn_increment(state);
+    case 'TODAY_DECREMENT':
+      return fn_todayDecrement(state)
+    case 'TODAY_INCREMENT':
+      return fn_todayIncrement(state);
+    case 'DATE_CHANGE':
+      return fn_dateChange(state, action);
+    case 'TOMONTH_DECREMENT': 
+      return fn_toMonthDecrement(state);
+    case 'TOMONTH_INCREMENT': 
+      return fn_toMonthIncrement(state); 
+    case 'TYPE_CHANGE':
+      return {...state, userType: action.userType}
     default:
       throw new Error("Dosen't have action type");
   }

@@ -1,6 +1,7 @@
 import './styles/common.scss'
 import Header from './layout/Header'
 import Content from './layout/Content'
+import Footer from './layout/Footer'
 import {TodoContext} from './TodoContext'
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <TodoContext>
         <Header />
         <Content />
+        <Footer />
       </TodoContext>
     </div>
   );

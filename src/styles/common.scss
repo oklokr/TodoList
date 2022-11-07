@@ -2,15 +2,173 @@ body {
   background: #e9ecef;
 }
 
+#root {
+  height: 100vh;
+  width: fit-content;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  width: 412px;
+  position: relative;
+}
+
 // ================================= //
 // [Header] //
 // ================================= //
 header {
   display: flex;
   justify-content: center;
-  padding: 20px 0;
 
-  h1 {
-    margin: 0;
+  .view_wrap {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 4px 10px;
+    box-sizing: border-box;
+  
+    .btn_mewnu {
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      position: relative;
+      z-index: 2;
+      &::after, &::before {
+        content: "";
+        display: block;
+        width: 22px;
+        height: 2px;
+        background: #fff;
+        border-radius: 4px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        transition: .3s;
+      }
+      &::after {top: 8px;}
+      &::before {bottom: 8px;}
+  
+      &.active {
+        &::before {
+          bottom: 0;
+          transform: rotate(135deg);
+          background: #000;
+        }
+        &::after {
+          top: 0;
+          transform: rotate(-135deg);
+          background: #000;
+        }
+        & + div {
+          left: 0;
+        }
+      }
+  
+      span {
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        position: absolute;
+        clip: rect(0 0 0 0);
+        overflow: hidden;
+      }
+    }
+  
+    div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 12px;
+      position: absolute;
+      padding: 54px 20px 20px;
+      border-radius: 4px;
+      background: #fff;
+      border: 1px solid #ccc;
+      transition: .3s;
+      top: 0;
+      left: -100%;
+      z-index: 1;
+    }
+  }
+}
+
+// ================================= //
+// [Content] //
+// ================================= //
+main {
+  width: 100%;
+  height: 600px;
+  margin: 0 auto;
+  position: relative;
+  padding: 20px 20px;
+  border-radius: 8px;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+// ================================= //
+// [Footer] //
+// ================================= //
+footer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  transform: translate(0, -50%);
+
+  .create_wrap {
+    width: 412px;
+    height: 600px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    border-radius: 8px;
+    background: #0000004d;
+    transform: translate(0, -40px);
+    overflow: hidden;
+    z-index: 5;
+  }
+
+  button.btn_add {
+    width: 80px;
+    height: 80px;
+    position: relative;
+    z-index: 10;
+    border-radius: 50%;
+    background-color: #38d9a9;
+    transition: 0.125s all ease-in;
+    &:hover {
+      background-color: #63e6be;
+    }
+    &:active {
+      background-color: #20c997;
+    }
+  
+    &.active {
+      background-color: #ff6b6b;
+      transform: rotate(45deg);
+      &:hover {
+        background-color: #ff8787;
+      }
+      &:active {
+        background-color: #fa5252;
+      }
+    }
+    span {
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      position: absolute;
+      clip: rect(0 0 0 0);
+      overflow: hidden;
+    }
   }
 }
